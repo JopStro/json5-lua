@@ -6,7 +6,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  build-windows:
 
     runs-on: windows-latest
 
@@ -19,8 +19,18 @@ jobs:
       run: cargo build --verbose --release
       env:
         LUA_LIB: "./.lua/lib"
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v4
       with:
         name: json5.dll
         path: target/release/json5.dll
-      
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build --verbose --release
+    - uses: actions/upload-artifact@v4
+      with:
+        name: json5.dylib
+        path: target/release/json5.dylib
