@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: xpol/setup-lua@v1
+    - uses: xpol/setup-lua@v0.3
       with:
         lua-version: "luajit-2.0.5"
     - name: Build
