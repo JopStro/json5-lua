@@ -58,8 +58,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           pattern: "*-build"
-      - run: mv libjson5.dylib json5.dylib
-      - run: mv libjson5.so json5.so
+      - run: mv macos-build/libjson5.dylib json5.dylib
+      - run: mv linux-build/libjson5.so json5.so
+      - run: mv windows-build/json5.dll json5.dll
 
       - name: Create a Release
         uses: ncipollo/release-action@v1
