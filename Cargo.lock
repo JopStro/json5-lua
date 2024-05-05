@@ -94,23 +94,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "49f1f14873335454500d59611f1cf4a4b0f786f9ac11f4312a78e4cf2566695b"
 
 [[package]]
-name = "json5"
-version = "0.4.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "96b0db21af676c1ce64250b5f40f3ce2cf27e4e47cb91ed91eb6fe9350b430c1"
-dependencies = [
- "pest",
- "pest_derive",
- "serde",
-]
-
-[[package]]
 name = "json5-lua"
 version = "0.1.0"
 dependencies = [
- "json5",
  "mlua",
  "serde_json",
+ "serde_json5",
 ]
 
 [[package]]
@@ -307,6 +296,17 @@ checksum = "3e17db7126d17feb94eb3fad46bf1a96b034e8aacbc2e775fe81505f8b0b2813"
 dependencies = [
  "itoa",
  "ryu",
+ "serde",
+]
+
+[[package]]
+name = "serde_json5"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32a6b754515e1a7bd79fc2edeaecee526fc80cb3a918607e5ca149225a3a9586"
+dependencies = [
+ "pest",
+ "pest_derive",
  "serde",
 ]
 

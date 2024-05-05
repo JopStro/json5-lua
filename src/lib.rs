@@ -1,6 +1,6 @@
-use json5 as j5;
 use mlua::prelude::*;
 use serde_json::Value;
+use serde_json5 as j5;
 
 fn decode<'lua>(lua: &'lua Lua, s: LuaValue<'lua>) -> LuaResult<LuaValue<'lua>> {
     let s = match s {
