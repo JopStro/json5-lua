@@ -29,7 +29,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: cargo build --verbose --release
+      run: cargo rustc --verbose --release -- -C link-arg=-undefined -C link-arg=dynamic_lookup
       env:
         LUA_LIB: "./.lua/lib"
     - uses: actions/upload-artifact@v4
