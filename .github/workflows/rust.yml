@@ -1,7 +1,9 @@
-name: Rust
+name: Release
 
 on:
-  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 env:
   CARGO_TERM_COLOR: always
 
@@ -30,9 +32,46 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build
       run: cargo rustc --verbose --release -- -C link-arg=-undefined -C link-arg=dynamic_lookup
-      env:
-        LUA_LIB: "./.lua/lib"
     - uses: actions/upload-artifact@v4
       with:
         name: json5.dylib
         path: target/release/libjson5.dylib
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build --verbose --release
+    - uses: actions/upload-artifact@v4
+      with:
+        name: json5.so
+        path: target/release/libjson5.so
+          
+  create-release:
+    needs: [build-windows,build-linux,build-macos]
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download Windows Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: json5.dll
+      - name: Download Macos Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: json5.dylib
+      - name: Download Linux Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: json5.so
+
+      - name: Create a Release
+        uses: ncipollo/release-action@v1
+        with:
+          name: JSON5 Lua ${{github.ref_name}}
+          artifacts: "json5.dll,json5.dylib,json5.so"
+          body: "Macos build is arm64 only"
+    
