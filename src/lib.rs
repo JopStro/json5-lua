@@ -4,10 +4,10 @@ use serde_json5 as j5;
 
 fn decode<'lua>(lua: &'lua Lua, s: LuaValue<'lua>) -> LuaResult<LuaValue<'lua>> {
     let s = match s {
-        LuaValue::String(ref s) => s.to_str(),
+        LuaValue::String(ref s) => Ok(s.as_bytes()),
         _ => Err(format!("invalid input type: {}", s.type_name())).into_lua_err(),
     }?;
-    let val: Value = j5::from_str(s).map_err(LuaError::external)?;
+    let val: Value = j5::from_slice(s).map_err(LuaError::external)?;
     lua.to_value_with(
         &val,
         LuaSerializeOptions::new()
