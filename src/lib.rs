@@ -7,8 +7,7 @@ fn decode<'lua>(lua: &'lua Lua, s: mlua::Value<'lua>) -> LuaResult<mlua::Value<'
         mlua::Value::String(ref s) => s.to_str(),
         _ => Err(format!("invalid input type: {}", s.type_name())).into_lua_err(),
     }?;
-    let val: serde_json::Value =
-        j5::from_str(s).map_err(|e| mlua::Error::external(e.to_string()))?;
+    let val: serde_json::Value = j5::from_str(s).map_err(LuaError::external)?;
     lua.to_value_with(
         &val,
         mlua::SerializeOptions::new()
@@ -19,7 +18,7 @@ fn decode<'lua>(lua: &'lua Lua, s: mlua::Value<'lua>) -> LuaResult<mlua::Value<'
 
 fn encode<'lua>(lua: &'lua Lua, v: mlua::Value<'lua>) -> LuaResult<mlua::Value<'lua>> {
     let val: serde_json::Value = lua.from_value(v)?;
-    lua.create_string(j5::to_string(&val).map_err(|e| mlua::Error::external(e.to_string()))?)
+    lua.create_string(j5::to_string(&val).map_err(LuaError::external)?)
         .map(mlua::Value::String)
 }
 
