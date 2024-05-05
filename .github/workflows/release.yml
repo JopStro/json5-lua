@@ -23,7 +23,7 @@ jobs:
         LUA_LIB: "./.lua/lib"
     - uses: actions/upload-artifact@v4
       with:
-        name: json5.dll
+        name: windows-build
         path: target/release/json5.dll
   build-macos:
     runs-on: macos-latest
@@ -34,7 +34,7 @@ jobs:
       run: cargo rustc --verbose --release -- -C link-arg=-undefined -C link-arg=dynamic_lookup
     - uses: actions/upload-artifact@v4
       with:
-        name: json5.dylib
+        name: macos-build
         path: target/release/libjson5.dylib
   build-linux:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
       run: cargo build --verbose --release
     - uses: actions/upload-artifact@v4
       with:
-        name: json5.so
+        name: linux-build
         path: target/release/libjson5.so
           
   create-release:
@@ -54,18 +54,12 @@ jobs:
     permissions: write-all
 
     steps:
-      - name: Download Windows Artifact
+      - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          name: json5.dll
-      - name: Download Macos Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: json5.dylib
-      - name: Download Linux Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: json5.so
+          pattern: "*-build"
+      - run: mv libjson5.dylib json5.dylib
+      - run: mv libjson5.so json5.so
 
       - name: Create a Release
         uses: ncipollo/release-action@v1
