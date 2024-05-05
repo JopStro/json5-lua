@@ -35,4 +35,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: json5.dylib
-        path: target/release/json5.dylib
+        path: target/release/libjson5.dylib
