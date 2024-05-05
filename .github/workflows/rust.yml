@@ -28,8 +28,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: leafo/gh-actions-lua@v10
+      with:
+        luaVersion: "luajit-2.0.5"
     - name: Build
       run: cargo build --verbose --release
+      env:
+        LUA_LIB: "./.lua/lib"
     - uses: actions/upload-artifact@v4
       with:
         name: json5.dylib
