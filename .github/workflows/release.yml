@@ -54,7 +54,6 @@ jobs:
     permissions: write-all
 
     steps:
-      - uses: actions/checkout@v4
       - name: Download Windows Artifact
         uses: actions/download-artifact@v4
         with:
@@ -72,6 +71,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           name: JSON5 Lua ${{github.ref_name}}
-          artifacts: "json5.dll,json5.dylib,json5.so"
+          artifacts: "json5.*"
           body: "Macos build is arm64 only"
     
