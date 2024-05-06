@@ -1,6 +1,6 @@
 # JSON5 lua
 
-A native lua module for reading json5, written in rust using mlua and serde.
+A native lua module for reading [json5](https://json5.org), written in rust using mlua and serde.
 
 ## Usage
 the json5.dll/dylib/so file must be availible in the lua cpath (e.g. the working directory)
