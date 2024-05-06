@@ -17,8 +17,8 @@ fn decode<'lua>(lua: &'lua Lua, s: LuaValue<'lua>) -> LuaResult<LuaValue<'lua>> 
 }
 
 fn encode<'lua>(lua: &'lua Lua, v: LuaValue<'lua>) -> LuaResult<LuaValue<'lua>> {
-    lua.create_string(j5::to_string(&v).map_err(LuaError::external)?)
-        .map(LuaValue::String)
+    let s = j5::to_string(&v).map_err(LuaError::external)?;
+    lua.create_string(s).map(LuaValue::String)
 }
 
 #[mlua::lua_module]
